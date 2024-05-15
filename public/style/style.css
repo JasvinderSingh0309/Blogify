@@ -3,4 +3,6 @@ body{
   background: linear-gradient(180deg,#948979,#153448);
 }
 
-
+.duration{
+  font-size: 12px;
+}
