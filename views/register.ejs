@@ -1,0 +1,25 @@
+<%- include("./partials/header.ejs") -%>
+
+<div class="d-flex align-items-center justify-content-center py-4 bg-body-dark logInHeight">
+  <main class="form-signin w-100 m-auto">
+    <form action="/register" method="post">
+      <img class="mb-4 " src="assets/edit_note_48dp_FILL0_wght400_GRAD0_opsz48.png" alt="Blog-App-logo" width="72" >
+      <h1 class="h3 mb-3 fw-normal text-light">Register</h1>
+
+      <div class="form-floating ">
+        <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" required>
+        <label for="floatingInput">Email address</label>
+      </div>
+
+      <div class="form-floating">
+        <input type="password" class="form-control" id="floatingPassword" placeholder="Password" required>
+        <label for="floatingPassword">Password</label>
+      </div>
+
+      <button class="btn btn-primary w-100 py-2 my-4" type="submit">Save</button>
+      <p class="mt-5 mb-3 text-light">© 2024</p>
+    </form>
+  </main>
+</div>
+
+<%- include("./partials/footer.ejs") -%>

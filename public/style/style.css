@@ -6,3 +6,22 @@ body{
 .duration{
   font-size: 12px;
 }
+.form-signin{
+  max-width: 330px;
+  padding: 1rem;
+}
+.logInHeight{
+  min-height: 100vh;
+}
+.form-floating{
+  position: relative;
+}
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+}
