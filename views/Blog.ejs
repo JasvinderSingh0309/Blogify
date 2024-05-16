@@ -1,0 +1,48 @@
+<%- include("./partials/header.ejs") -%>
+
+  <div class="container">
+    <header class="d-flex flex-wrap justify-content-center py-3 mb-4">
+      <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-decoration-none text-light">
+        <img src="assets/edit_note_48dp_FILL0_wght400_GRAD0_opsz48.png" alt="Blog-Book" width="40" height="40">
+        <span class="fs-4 mx-2">Your-Blogs</span>
+      </a>
+
+      <ul class="nav nav-pills">
+        <li class="nav-item"><a href="/" class="btn btn-outline-light">Home</a></li>
+        <li class="nav-item"><a href="/addBlog" class="btn btn-light ms-3">Add new blog</a></li>
+      </ul>
+    </header>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6 mb-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <h5 class="card-title fs-3 mb-0">Jasvinder<!-- title --></h5>
+              <div class="duration">1hr ago<!-- calculate --></div>
+            </div>
+            <p class="card-text lh-sm">With supporting text below as a natural lead-in to additional content.With supporting text below as a natural lead-in to additional content.With supporting text below as a natural lead-in to additional content.</p>
+            <a href="/edit" class="btn btn-info text-light">edit</a>
+            <a href="/delete" class="btn btn-danger">delete</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 mb-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <h5 class="card-title fs-3 mb-0">Jasvinder<!-- title --></h5>
+              <div class="duration">1hr ago<!-- calculate --></div>
+            </div>
+            <p class="card-text lh-sm">With supporting text below as a natural lead-in to additional content.With supporting text below as a natural lead-in to additional content.With supporting text below as a natural lead-in to additional content.</p>
+            <a href="/edit" class="btn btn-info text-light">edit</a>
+            <a href="/delete" class="btn btn-danger">delete</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<%- include("./partials/footer.ejs") -%>
