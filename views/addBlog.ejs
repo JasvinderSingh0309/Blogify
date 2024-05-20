@@ -1,0 +1,26 @@
+<%- include("./partials/header.ejs") -%>
+
+<div class="d-flex align-items-center justify-content-center py-4 bg-body-dark logInHeight">
+  <main class="form-signin w-100 m-auto">
+    <form action="/" method="post">
+
+      <!--an hidden input that stores id passed and send when we submit the form-->
+      <h1 class="h3 mb-3 fw-normal text-light">Register</h1>
+
+      <div class="form-floating ">
+        <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email" autocomplete="off" required>
+        <label for="floatingInput">Email address</label>
+      </div>
+
+      <div class="form-floating">
+        <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password" required>
+        <label for="floatingPassword">Password</label>
+      </div>
+
+      <button class="btn btn-primary w-100 py-2 my-4" type="submit">Save</button>
+
+    </form>
+  </main>
+</div>
+
+<%- include("./partials/footer.ejs") -%>

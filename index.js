@@ -20,6 +20,11 @@ db.connect();
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.get("/", (req, res) => {
+  // get all data from the user-Blog db and send to index.ejs.
+  res.render("index.ejs");
+});
+
 app.get("/login", (req, res) => {
   res.render("login.ejs");
 })
@@ -27,11 +32,6 @@ app.get("/login", (req, res) => {
 app.get("/register", (req, res) => {
   res.render("register.ejs");
 })
-
-app.get("/", (req, res) => {
-  // get all data from the user-Blog db and send to index.ejs.
-  res.render("index.ejs");
-});
 
 app.post("/login",async (req, res) => {
   console.log(req.body);
@@ -43,11 +43,14 @@ app.post("/login",async (req, res) => {
   if(hasEmail.rows.length) {
     let passwordFromDB = hasEmail.rows[0].password;
 
+    console.log(hasEmail.rows[0].id);
+
     if(passwordFromDB === password) {
-      //get all thi users blog from user-Blog db and sent it while rendering blog.ejs
-      res.render("blog.ejs"
-      // , {blogs:"",}
-      )
+      //get all the users blog from user-Blog db and sent it while rendering blog.ejs
+      res.render("blog.ejs", {
+        id:hasEmail.rows[0].id,
+        // blogs: [{}]
+      })
     }else{
       res.render("login.ejs", {
         message: "Please enter correct password.",
@@ -75,6 +78,12 @@ app.post("/register",async (req, res) => {
       message: "Email already exists. Please try again!!",
     });
   }
+})
+
+app.get("/login/addBlog", (req, res) => {
+  console.log(req.query);
+  const id = req.query.user_id;
+  res.render("login.ejs");
 })
 
 app.listen(port, () => {
