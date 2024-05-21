@@ -2,11 +2,20 @@ import express from "express";
 import bodyParser from "body-parser";
 import pg from "pg";
 import env from "dotenv";
+import moment from "moment";
 
 const app = express();
 const port = 3000;
 
 env.config();
+
+function getAllBlogs() {
+  return data;
+}
+
+function getUserBlogs(id) {
+  return data;
+}
 
 const db = new pg.Client({
   user: process.env.PG_USER,
@@ -63,6 +72,7 @@ app.post("/login",async (req, res) => {
   }
 })
 
+
 app.post("/register",async (req, res) => {
   console.log(req.body);
   let email = req.body.email;
@@ -80,10 +90,35 @@ app.post("/register",async (req, res) => {
   }
 })
 
-app.get("/login/addBlog", (req, res) => {
+
+app.get("/addBlog", (req, res) => {
   console.log(req.query);
   const id = req.query.user_id;
-  res.render("login.ejs");
+  res.render("addBlog.ejs",{
+    id:id,
+    route:"addBlog",
+  });
+})
+
+app.post("/addBlog", (req, res) => {
+  console.log(req.body);
+  
+  console.log(moment().format("MMMM D, YYYY"));
+  let user_id = req.body.user_id;
+  let title = req.body.title;
+  let blog = req.body.blog;
+  let date = moment().format("MMMM D, YYYY");
+
+  res.send("works");
+
+  // res.render("addBlog.ejs",{
+  //   id:id,
+  //   route:"addBlog",
+  // });
+})
+
+app.get("/yourBlog", () => {
+  
 })
 
 app.listen(port, () => {

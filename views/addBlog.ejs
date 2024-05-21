@@ -1,23 +1,25 @@
 <%- include("./partials/header.ejs") -%>
 
 <div class="d-flex align-items-center justify-content-center py-4 bg-body-dark logInHeight">
-  <main class="form-signin w-100 m-auto">
-    <form action="/" method="post">
+  <main class="col-11 col-md-7 m-auto">
+    <form action="/<%= route%>" method="post">
+      <h1 class="h3 mb-3 fw-normal text-light fs-1 text-decoration-underline">Add new blog</h1>
 
-      <!--an hidden input that stores id passed and send when we submit the form-->
-      <h1 class="h3 mb-3 fw-normal text-light">Register</h1>
+      <input type="hidden" name="user_id" value="<%= id%>">
 
-      <div class="form-floating ">
-        <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email" autocomplete="off" required>
-        <label for="floatingInput">Email address</label>
+      <div class="mb-3">
+        <label class="form-label text-light fs-4">Title</label>
+        <input type="text" name="title" class="form-control" placeholder="Write title...." required>
       </div>
 
-      <div class="form-floating">
-        <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password" required>
-        <label for="floatingPassword">Password</label>
+      <div class="mb-3">
+        <label for="exampleFormControlTextarea1" class="form-label text-light fs-4">Blog</label>
+        <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="Write blog...." rows="5" name="blog"  required></textarea>
       </div>
 
-      <button class="btn btn-primary w-100 py-2 my-4" type="submit">Save</button>
+      <div class="d-flex w-100 justify-content-center">
+        <button class="btn btn-primary py-2 my-4" type="submit">Add</button>
+      </div>
 
     </form>
   </main>
