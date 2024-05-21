@@ -10,11 +10,12 @@ const port = 3000;
 env.config();
 
 function getAllBlogs() {
-  return data;
+  // write code for this
 }
 
-function getUserBlogs(id) {
-  return data;
+async function getUserBlogs(id) {
+  let response = await db.query("SELECT * FROM users_blogs WHERE user_id = $1",[id]);
+  return response.rows;
 }
 
 const db = new pg.Client({
@@ -55,10 +56,9 @@ app.post("/login",async (req, res) => {
     console.log(hasEmail.rows[0].id);
 
     if(passwordFromDB === password) {
-      //get all the users blog from user-Blog db and sent it while rendering blog.ejs
       res.render("blog.ejs", {
         id:hasEmail.rows[0].id,
-        // blogs: [{}]
+        blogs: await getUserBlogs(hasEmail.rows[0].id),
       })
     }else{
       res.render("login.ejs", {
@@ -91,35 +91,33 @@ app.post("/register",async (req, res) => {
 })
 
 
-app.get("/addBlog", (req, res) => {
+app.get("/addBlog",async (req, res) => {
   console.log(req.query);
   const id = req.query.user_id;
   res.render("addBlog.ejs",{
     id:id,
-    route:"addBlog",
+    route:"showBlog",
+    blogs: await getUserBlogs(id),
   });
 })
 
-app.post("/addBlog", (req, res) => {
-  console.log(req.body);
-  
-  console.log(moment().format("MMMM D, YYYY"));
+app.post("/showBlog", async (req, res) => {
   let user_id = req.body.user_id;
   let title = req.body.title;
   let blog = req.body.blog;
   let date = moment().format("MMMM D, YYYY");
 
-  res.send("works");
+  await db.query("INSERT INTO users_blogs (title, blog, dt, user_id) VALUES ($1, $2, $3, $4)",[
+    title, blog, date, user_id
+  ]);
 
-  // res.render("addBlog.ejs",{
-  //   id:id,
-  //   route:"addBlog",
-  // });
+  res.render("blog.ejs", {
+    id:user_id,
+    blogs: await getUserBlogs(user_id),
+  });
 })
 
-app.get("/yourBlog", () => {
-  
-})
+// edit and delete functionality.
 
 app.listen(port, () => {
   console.log(`Server is listening at port ${port}`);
