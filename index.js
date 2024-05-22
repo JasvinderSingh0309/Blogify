@@ -9,8 +9,10 @@ const port = 3000;
 
 env.config();
 
-function getAllBlogs() {
-  // write code for this
+async function getAllBlogs() {
+  let response = await db.query("SELECT * FROM users_blogs");
+  console.log(response.rows);
+  return response.rows.sort((a,b) => a.id - b.id);
 }
 
 async function getUserBlogs(id) {
@@ -30,9 +32,10 @@ db.connect();
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get("/", (req, res) => {
-  // get all data from the user-Blog db and send to index.ejs.
-  res.render("index.ejs");
+app.get("/",async (req, res) => {
+  res.render("index.ejs", {
+    blogs: await getAllBlogs(),
+  });
 });
 
 app.get("/login", (req, res) => {
