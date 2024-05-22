@@ -11,7 +11,6 @@ env.config();
 
 async function getAllBlogs() {
   let response = await db.query("SELECT * FROM users_blogs");
-  console.log(response.rows);
   return response.rows.sort((a,b) => a.id - b.id);
 }
 
@@ -100,7 +99,7 @@ app.get("/addBlog",async (req, res) => {
   res.render("addBlog.ejs",{
     id:id,
     route:"showBlog",
-    blogs: await getUserBlogs(id),
+    // blogs: await getUserBlogs(id),
   });
 })
 
@@ -120,7 +119,36 @@ app.post("/showBlog", async (req, res) => {
   });
 })
 
-// edit and delete functionality.
+app.get("/editBlog", async (req, res) => {
+  console.log(req.query);
+
+  let resp = await db.query("SELECT * FROM users_blogs WHERE id = $1",[req.query.id]);
+
+  console.log(resp.rows);
+
+  res.render("editBlog.ejs", {
+    id: req.query.userID,
+    route:"updateBlog",
+    blog:resp.rows[0],
+  });
+});
+
+app.post("/updateBlog", async (req, res) => {
+  let user_id = req.body.user_id;
+  let blog_id = req.body.blog_id;
+  let title = req.body.title;
+  let blog = req.body.blog;
+  let date = moment().format("MMMM D, YYYY");
+
+  await db.query("UPDATE users_blogs SET title=$1, blog=$2, dt=$3 WHERE id=$4 ",[
+    title, blog, date, blog_id
+  ]);
+
+  res.render("blog.ejs", {
+    id:user_id,
+    blogs: await getUserBlogs(user_id),
+  });
+})
 
 app.listen(port, () => {
   console.log(`Server is listening at port ${port}`);
