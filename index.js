@@ -150,6 +150,18 @@ app.post("/updateBlog", async (req, res) => {
   });
 })
 
+app.get("/deleteBlog",async (req, res) => {
+  console.log(req.query);
+
+  await db.query("DELETE FROM users_blogs WHERE id = $1",[req.query.id]);
+
+  
+  res.render("blog.ejs", {
+    id:req.query.userID,
+    blogs: await getUserBlogs(req.query.userID),
+  });
+});
+
 app.listen(port, () => {
   console.log(`Server is listening at port ${port}`);
 })

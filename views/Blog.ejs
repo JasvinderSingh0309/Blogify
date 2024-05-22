@@ -41,8 +41,9 @@
                   <button class="btn btn-info text-light">edit</button>
                 </form>
 
-                <form action="/deleteBlog" method="post">
+                <form action="/deleteBlog" method="delete">
                   <input type="hidden" name="id" value="<%= blogs[i].id%>">
+                  <input type="hidden" name="userID" value="<%= blogs[i].user_id%>">
                   <button class="btn btn-danger ms-2">delete</button>
                 </form>
               </div>
