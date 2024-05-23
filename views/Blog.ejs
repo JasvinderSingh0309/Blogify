@@ -38,13 +38,13 @@
                 <form action="/editBlog" method="get">
                   <input type="hidden" name="id" value="<%= blogs[i].id%>">
                   <input type="hidden" name="userID" value="<%= blogs[i].user_id%>">
-                  <button class="btn btn-info text-light">edit</button>
+                  <button class="btn btn-outline-info">edit</button>
                 </form>
 
                 <form action="/deleteBlog" method="delete">
                   <input type="hidden" name="id" value="<%= blogs[i].id%>">
                   <input type="hidden" name="userID" value="<%= blogs[i].user_id%>">
-                  <button class="btn btn-danger ms-2">delete</button>
+                  <button class="btn btn-outline-danger ms-2">delete</button>
                 </form>
               </div>
 

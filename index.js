@@ -46,7 +46,7 @@ app.get("/register", (req, res) => {
 })
 
 app.post("/login/yourHome",async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   let email = req.body.email;
   let password = req.body.password;
 
@@ -55,7 +55,7 @@ app.post("/login/yourHome",async (req, res) => {
   if(hasEmail.rows.length) {
     let passwordFromDB = hasEmail.rows[0].password;
 
-    console.log(hasEmail.rows[0].id);
+    // console.log(hasEmail.rows[0].id);
 
     if(passwordFromDB === password) {
       res.render("blog.ejs", {
@@ -76,7 +76,7 @@ app.post("/login/yourHome",async (req, res) => {
 
 
 app.post("/register",async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   let email = req.body.email;
   let password = req.body.password;
 
@@ -84,7 +84,7 @@ app.post("/register",async (req, res) => {
 
   if(!hasEmail.rows.length) {
     await db.query("INSERT INTO users (email, password) VALUES ($1, $2)",[email, password]);
-    res.redirect("/login");
+    res.redirect("/login-form");
   }else{
     res.render("register.ejs", {
       message: "Email already exists. Please try again!!",
@@ -94,12 +94,11 @@ app.post("/register",async (req, res) => {
 
 
 app.get("/addBlog",async (req, res) => {
-  console.log(req.query);
+  // console.log(req.query);
   const id = req.query.user_id;
   res.render("addBlog.ejs",{
     id:id,
     route:"showBlog",
-    // blogs: await getUserBlogs(id),
   });
 })
 
@@ -120,11 +119,11 @@ app.post("/showBlog", async (req, res) => {
 })
 
 app.get("/editBlog", async (req, res) => {
-  console.log(req.query);
+  // console.log(req.query);
 
   let resp = await db.query("SELECT * FROM users_blogs WHERE id = $1",[req.query.id]);
 
-  console.log(resp.rows);
+  // console.log(resp.rows);
 
   res.render("editBlog.ejs", {
     id: req.query.userID,
@@ -151,7 +150,7 @@ app.post("/updateBlog", async (req, res) => {
 })
 
 app.get("/deleteBlog",async (req, res) => {
-  console.log(req.query);
+  // console.log(req.query);
 
   await db.query("DELETE FROM users_blogs WHERE id = $1",[req.query.id]);
 
