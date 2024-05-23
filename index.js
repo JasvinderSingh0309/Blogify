@@ -37,7 +37,7 @@ app.get("/",async (req, res) => {
   });
 });
 
-app.get("/login", (req, res) => {
+app.get("/login-form", (req, res) => {
   res.render("login.ejs");
 })
 
@@ -45,7 +45,7 @@ app.get("/register", (req, res) => {
   res.render("register.ejs");
 })
 
-app.post("/login",async (req, res) => {
+app.post("/login/yourHome",async (req, res) => {
   console.log(req.body);
   let email = req.body.email;
   let password = req.body.password;
