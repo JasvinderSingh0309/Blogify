@@ -3,9 +3,12 @@ import bodyParser from "body-parser";
 import pg from "pg";
 import env from "dotenv";
 import moment from "moment";
+import bcrypt from "bcrypt";
 
 const app = express();
 const port = 3000;
+
+const saltingRounds = 10;
 
 env.config();
 
@@ -45,7 +48,7 @@ app.get("/register", (req, res) => {
   res.render("register.ejs");
 })
 
-app.post("/login/yourHome",async (req, res) => {
+app.post("/login/yourHome",async (req, res) => { // bycrpt
   // console.log(req.body);
   let email = req.body.email;
   let password = req.body.password;
@@ -57,16 +60,23 @@ app.post("/login/yourHome",async (req, res) => {
 
     // console.log(hasEmail.rows[0].id);
 
-    if(passwordFromDB === password) {
-      res.render("blog.ejs", {
-        id:hasEmail.rows[0].id,
-        blogs: await getUserBlogs(hasEmail.rows[0].id),
-      })
-    }else{
-      res.render("login.ejs", {
-        message: "Please enter correct password.",
-      });
-    }
+    bcrypt.compare(password, passwordFromDB, async (error, result) => {
+      if(error) {
+        console.log("Error :", error);
+      }else{
+        console.log(result);
+        if(result) {
+          res.render("blog.ejs", {
+            id:hasEmail.rows[0].id,
+            blogs: await getUserBlogs(hasEmail.rows[0].id),
+          })
+        }else{
+          res.render("login.ejs", {
+            message: "Please enter correct password.",
+          });
+        }
+      }
+    });
   }else{
     res.render("register.ejs", {
       message: "Please register to continue.",
@@ -83,8 +93,16 @@ app.post("/register",async (req, res) => {
   let hasEmail = await db.query("SELECT * FROM users WHERE email = $1",[email]);
 
   if(!hasEmail.rows.length) {
-    await db.query("INSERT INTO users (email, password) VALUES ($1, $2)",[email, password]);
-    res.redirect("/login-form");
+
+    bcrypt.hash(password, saltingRounds, async (error, hash) => {
+      if(error) {
+        console.log("Error :", error);
+      }else{
+        await db.query("INSERT INTO users (email, password) VALUES ($1, $2)",[email, hash]);
+        res.redirect("/login-form");
+      }
+    });
+
   }else{
     res.render("register.ejs", {
       message: "Email already exists. Please try again!!",
