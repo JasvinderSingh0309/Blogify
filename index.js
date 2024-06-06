@@ -31,6 +31,28 @@ const db = new pg.Client({
 });
 db.connect();
 
+// write a function to update existing passwords to hash
+async function updatePassword() {
+  let response = await db.query("SELECT * FROM users");
+  let resp = response.rows;
+  console.log(resp);
+  // for(let i=0;i<resp.length;i++) {
+  //   if(resp[i].password.length !== 60) {
+  //     console.log(resp[i].id);
+
+      // bcrypt.hash(resp[i].password, saltingRounds, async (error, hash) => {
+      //   if(error) {
+      //     console.log(error);
+      //   }else{
+      //     await db.query("UPDATE users SET password = $1 WHERE id=$2",[hash, resp[i].id]);
+      //   }
+      // });
+
+    // }
+  // }
+}
+// updatePassword();
+
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -62,7 +84,9 @@ app.post("/login/yourHome",async (req, res) => { // bycrpt
 
     bcrypt.compare(password, passwordFromDB, async (error, result) => {
       if(error) {
-        console.log("Error :", error);
+        res.render("login.ejs", {
+          message: "Something went wrong. Please try again!!",
+        });
       }else{
         console.log(result);
         if(result) {
@@ -96,7 +120,9 @@ app.post("/register",async (req, res) => {
 
     bcrypt.hash(password, saltingRounds, async (error, hash) => {
       if(error) {
-        console.log("Error :", error);
+        res.render("register.ejs", {
+          message: "Something went wrong. Please try again!!",
+        });
       }else{
         await db.query("INSERT INTO users (email, password) VALUES ($1, $2)",[email, hash]);
         res.redirect("/login-form");
