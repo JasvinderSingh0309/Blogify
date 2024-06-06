@@ -35,21 +35,18 @@ db.connect();
 async function updatePassword() {
   let response = await db.query("SELECT * FROM users");
   let resp = response.rows;
-  console.log(resp);
-  // for(let i=0;i<resp.length;i++) {
-  //   if(resp[i].password.length !== 60) {
-  //     console.log(resp[i].id);
-
-      // bcrypt.hash(resp[i].password, saltingRounds, async (error, hash) => {
-      //   if(error) {
-      //     console.log(error);
-      //   }else{
-      //     await db.query("UPDATE users SET password = $1 WHERE id=$2",[hash, resp[i].id]);
-      //   }
-      // });
-
-    // }
-  // }
+  for(let i=0;i<resp.length;i++) {
+    if(resp[i].password.length !== 60) {
+      console.log(resp[i].id);
+      bcrypt.hash(resp[i].password, saltingRounds, async (error, hash) => {
+        if(error) {
+          console.log(error);
+        }else{
+          await db.query("UPDATE users SET password = $1 WHERE id=$2",[hash, resp[i].id]);
+        }
+      });
+    }
+  }
 }
 // updatePassword();
 
@@ -70,8 +67,7 @@ app.get("/register", (req, res) => {
   res.render("register.ejs");
 })
 
-app.post("/login/yourHome",async (req, res) => { // bycrpt
-  // console.log(req.body);
+app.post("/login/yourHome",async (req, res) => { 
   let email = req.body.email;
   let password = req.body.password;
 
@@ -79,8 +75,6 @@ app.post("/login/yourHome",async (req, res) => { // bycrpt
 
   if(hasEmail.rows.length) {
     let passwordFromDB = hasEmail.rows[0].password;
-
-    // console.log(hasEmail.rows[0].id);
 
     bcrypt.compare(password, passwordFromDB, async (error, result) => {
       if(error) {
@@ -110,7 +104,6 @@ app.post("/login/yourHome",async (req, res) => { // bycrpt
 
 
 app.post("/register",async (req, res) => {
-  // console.log(req.body);
   let email = req.body.email;
   let password = req.body.password;
 
@@ -138,7 +131,6 @@ app.post("/register",async (req, res) => {
 
 
 app.get("/addBlog",async (req, res) => {
-  // console.log(req.query);
   const id = req.query.user_id;
   res.render("addBlog.ejs",{
     id:id,
@@ -163,11 +155,7 @@ app.post("/showBlog", async (req, res) => {
 })
 
 app.get("/editBlog", async (req, res) => {
-  // console.log(req.query);
-
   let resp = await db.query("SELECT * FROM users_blogs WHERE id = $1",[req.query.id]);
-
-  // console.log(resp.rows);
 
   res.render("editBlog.ejs", {
     id: req.query.userID,
@@ -194,10 +182,7 @@ app.post("/updateBlog", async (req, res) => {
 })
 
 app.get("/deleteBlog",async (req, res) => {
-  // console.log(req.query);
-
   await db.query("DELETE FROM users_blogs WHERE id = $1",[req.query.id]);
-
   
   res.render("blog.ejs", {
     id:req.query.userID,
